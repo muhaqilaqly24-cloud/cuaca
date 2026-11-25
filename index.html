@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SkyCast - Informasi cuaca terkini dan prakiraan cuaca Indonesia.">
+    <title>SkyCast | Weather Forecast</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar">
+    <div class="container">
+        <a class="navbar-brand" href="#home">
+            <i class="bi bi-cloud-sun-fill"></i> Sky<span>Cast</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#home">Beranda</a></li>
+                <li class="nav-item"><a class="nav-link" href="#weather">Cuaca</a></li>
+                <li class="nav-item"><a class="nav-link" href="#forecast">Prakiraan</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
+                <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="container hero-content">
+        <div class="hero-label">
+            <i class="bi bi-cloud-sun"></i> INFORMASI CUACA INDONESIA
+        </div>
+
+        <h1>
+            <span id="typingText">Jelajahi Cuaca.</span><br>
+            Dengan Lebih Mudah.
+        </h1>
+
+        <p>
+            Dapatkan informasi cuaca terkini, suhu udara, kelembapan,
+            kecepatan angin, serta prakiraan cuaca untuk membantu
+            aktivitas sehari-hari.
+        </p>
+
+        <a href="#weather" class="btn-main me-2">
+            Lihat Cuaca <i class="bi bi-arrow-right"></i>
+        </a>
+
+        <a href="#about" class="btn btn-outline-light">
+            Tentang Kami
+        </a>
+    </div>
+</section>
+
+<!-- WEATHER -->
+<section class="section-padding" id="weather">
+    <div class="container">
+
+        <div class="section-heading text-center reveal">
+            <small>Informasi Cuaca</small>
+            <h2>Cuaca Hari Ini</h2>
+            <p>
+                Pantau kondisi cuaca terkini di berbagai kota besar
+                di Indonesia secara langsung.
+            </p>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-box reveal">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-9">
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="cityInput"
+                        placeholder="Masukkan nama kota, contoh: Makassar..."
+                    >
+                </div>
+                <div class="col-lg-3">
+                    <button class="btn-main w-100" id="searchButton">
+                        <i class="bi bi-search"></i> Cari Cuaca
+                    </button>
+                </div>
+            </div>
+            <div id="searchMessage" class="small mt-3 text-muted"></div>
+        </div>
+
+        <!-- SEARCH RESULT -->
+        <div class="search-result" id="searchResult">
+            <h4 class="fw-bold mb-3">Hasil Pencarian</h4>
+            <div id="searchWeatherContent"></div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold mb-0">Kota-Kota Indonesia</h4>
+            <small class="text-muted" id="lastUpdated">Memuat data...</small>
+        </div>
+
+        <div class="row g-4" id="weatherCities">
+            <div class="col-12 loading">
+                <i class="bi bi-arrow-repeat"></i>
+                <p>Memuat data cuaca...</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- FORECAST -->
+<section class="section-padding forecast-section" id="forecast">
+    <div class="container">
+
+        <div class="section-heading text-center reveal">
+            <small>Prediksi Cuaca</small>
+            <h2>Prakiraan 5 Hari</h2>
+            <p>
+                Lihat perkiraan kondisi cuaca beberapa hari ke depan
+                untuk kota yang kamu cari.
+            </p>
+        </div>
+
+        <div class="d-flex justify-content-center mb-4">
+            <select class="form-select w-auto" id="forecastCity">
+                <option value="Jakarta">Jakarta</option>
+                <option value="Makassar">Makassar</option>
+                <option value="Bandung">Bandung</option>
+                <option value="Surabaya">Surabaya</option>
+                <option value="Medan">Medan</option>
+            </select>
+        </div>
+
+        <div class="row g-3" id="forecastContainer">
+            <div class="col-12 loading">
+                <i class="bi bi-arrow-repeat"></i>
+                <p>Memuat prakiraan...</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- WEATHER DETAILS -->
+<section class="section-padding" id="details">
+    <div class="container">
+
+        <div class="section-heading text-center reveal">
+            <small>Detail Informasi</small>
+            <h2>Informasi Cuaca Lengkap</h2>
+            <p>
+                Kenali beberapa faktor cuaca yang dapat memengaruhi
+                kenyamanan dan aktivitas sehari-hari.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3 reveal">
+                <div class="info-card">
+                    <div class="info-icon"><i class="bi bi-droplet-half"></i></div>
+                    <h5>Kelembapan</h5>
+                    <div class="info-value" id="detailHumidity">--%</div>
+                    <p class="text-muted mb-0">Kadar uap air di udara.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 reveal">
+                <div class="info-card">
+                    <div class="info-icon"><i class="bi bi-wind"></i></div>
+                    <h5>Kecepatan Angin</h5>
+                    <div class="info-value" id="detailWind">-- km/j</div>
+                    <p class="text-muted mb-0">Kecepatan pergerakan udara.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 reveal">
+                <div class="info-card">
+                    <div class="info-icon"><i class="bi bi-speedometer2"></i></div>
+                    <h5>Tekanan Udara</h5>
+                    <div class="info-value" id="detailPressure">-- hPa</div>
+                    <p class="text-muted mb-0">Tekanan atmosfer saat ini.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3 reveal">
+                <div class="info-card">
+                    <div class="info-icon"><i class="bi bi-thermometer-half"></i></div>
+                    <h5>Suhu Udara</h5>
+                    <div class="info-value" id="detailTemperature">--°C</div>
+                    <p class="text-muted mb-0">Temperatur udara saat ini.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section-padding forecast-section" id="about">
+    <div class="container">
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6 reveal">
+                <img
+                    class="about-image"
+                    src="https://images.unsplash.com/photo-1499346030926-9a72daac6c63?auto=format&fit=crop&w=1000&q=85"
+                    alt="Pemandangan langit dan awan"
+                    loading="lazy"
+                >
+            </div>
+
+            <div class="col-lg-6 reveal">
+                <div class="section-heading mb-4">
+                    <small>Tentang SkyCast</small>
+                    <h2>Kenali Kondisi Cuaca dengan Lebih Mudah</h2>
+                </div>
+
+                <p class="about-text">
+                    SkyCast merupakan website informasi cuaca yang
+                    dirancang untuk membantu pengguna memperoleh
+                    informasi cuaca dengan tampilan sederhana,
+                    modern, dan mudah digunakan.
+                </p>
+
+                <div class="about-check">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Informasi cuaca secara langsung.
+                </div>
+
+                <div class="about-check">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Pencarian cuaca berdasarkan nama kota.
+                </div>
+
+                <div class="about-check">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Prakiraan cuaca untuk lima hari.
+                </div>
+
+                <div class="about-check">
+                    <i class="bi bi-check-circle-fill"></i>
+                    Tampilan responsif untuk berbagai perangkat.
+                </div>
+
+                <a href="#weather" class="btn-main mt-3">
+                    Mulai Jelajahi <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="section-padding" id="faq">
+    <div class="container">
+
+        <div class="section-heading text-center reveal">
+            <small>Pertanyaan Umum</small>
+            <h2>Frequently Asked Questions</h2>
+            <p>Temukan jawaban dari beberapa pertanyaan mengenai SkyCast.</p>
+        </div>
+
+        <div class="accordion col-lg-9 mx-auto reveal" id="faqAccordion">
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faqOne">
+                        Apa itu SkyCast?
+                    </button>
+                </h2>
+                <div id="faqOne" class="accordion-collapse collapse show"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        SkyCast adalah website yang menyediakan informasi
+                        cuaca terkini dan prakiraan cuaca untuk membantu
+                        pengguna merencanakan aktivitas sehari-hari.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faqTwo">
+                        Dari mana data cuaca diperoleh?
+                    </button>
+                </h2>
+                <div id="faqTwo" class="accordion-collapse collapse"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        SkyCast menggunakan layanan API Open-Meteo untuk
+                        memperoleh data prakiraan cuaca.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faqThree">
+                        Apakah SkyCast dapat mencari kota lain?
+                    </button>
+                </h2>
+                <div id="faqThree" class="accordion-collapse collapse"
+                    data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Ya. Pengguna dapat memasukkan nama kota pada
+                        kolom pencarian untuk melihat informasi cuaca
+                        selama lokasi tersebut tersedia di layanan API.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section-padding forecast-section" id="contact">
+    <div class="container">
+
+        <div class="section-heading text-center reveal">
+            <small>Hubungi Kami</small>
+            <h2>Kontak SkyCast</h2>
+            <p>
+                Punya pertanyaan atau masukan? Kirimkan pesan melalui
+                formulir di bawah ini.
+            </p>
+        </div>
+
+        <div class="contact-box col-lg-8 mx-auto reveal">
+            <form id="contactForm">
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Nama</label>
+                        <input type="text" class="form-control"
+                            placeholder="Masukkan nama" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Email</label>
+                        <input type="email" class="form-control"
+                            placeholder="Masukkan email" required>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-bold">Subjek</label>
+                        <input type="text" class="form-control"
+                            placeholder="Subjek pesan" required>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-bold">Pesan</label>
+                        <textarea class="form-control" rows="5"
+                            placeholder="Tuliskan pesan kamu..." required></textarea>
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn-main">
+                            Kirim Pesan <i class="bi bi-send"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+                <div class="footer-brand">
+                    <i class="bi bi-cloud-sun-fill"></i>
+                    Sky<span>Cast</span>
+                </div>
+                <p class="mt-3">
+                    Informasi cuaca terkini untuk membantu aktivitas
+                    sehari-hari dengan lebih mudah dan nyaman.
+                </p>
+
+                <div class="social-links mt-3">
+                    <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4">
+                <h5 class="fw-bold mb-3">Navigasi</h5>
+                <p><a href="#home">Beranda</a></p>
+                <p><a href="#weather">Cuaca</a></p>
+                <p><a href="#forecast">Prakiraan</a></p>
+                <p><a href="#about">Tentang</a></p>
+            </div>
+
+            <div class="col-lg-3 col-md-4">
+                <h5 class="fw-bold mb-3">Informasi</h5>
+                <p><a href="#faq">FAQ</a></p>
+                <p><a href="#contact">Kontak</a></p>
+                <p><a href="#details">Detail Cuaca</a></p>
+            </div>
+
+            <div class="col-lg-3 col-md-4">
+                <h5 class="fw-bold mb-3">Sumber Data</h5>
+                <p>
+                    <a href="https://open-meteo.com/" target="_blank" rel="noopener">
+                        Open-Meteo API
+                    </a>
+                </p>
+                <p>Informasi prakiraan cuaca.</p>
+            </div>
+
+        </div>
+
+        <hr class="border-secondary my-4">
+
+        <div class="text-center">
+            <small class="text-white-50">
+                © 2026 SkyCast. All Rights Reserved.
+            </small>
+        </div>
+    </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="backToTop" aria-label="Kembali ke atas">
+    <i class="bi bi-arrow-up"></i>
+</button>
+
+<!-- TOAST -->
+<div class="toast-container position-fixed bottom-0 start-0 p-3">
+    <div id="messageToast" class="toast" role="alert">
+        <div class="toast-header">
+            <i class="bi bi-cloud-sun-fill text-primary me-2"></i>
+            <strong class="me-auto">SkyCast</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body" id="toastMessage">
+            Pesan berhasil dikirim.
+        </div>
+    </div>
+</div>
+
+<!-- BOOTSTRAP JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
